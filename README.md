@@ -41,4 +41,4 @@ A modern, full-stack health assistant web app built with Flask that helps users 
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/Anuj-m02/DoC..git
-cd health-chatbot
+cd DoC.
