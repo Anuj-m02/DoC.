@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard | Health Chatbot</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #f9f9f9, #e6f7ff);
+      color: #333;
+      transition: all 0.3s ease;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(to right, #1e1e1e, #2c3e50);
+      color: #ecf0f1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+
+    header h2 {
+      font-size: 2.2em;
+      color: #2f80ed;
+    }
+
+    body.dark-mode header h2 {
+      color: #00bcd4;
+    }
+
+    section {
+      background: #fff;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    body.dark-mode section {
+      background: #2a2a2a;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+    }
+
+    h3 {
+      color: #27ae60;
+      margin-bottom: 15px;
+    }
+
+    body.dark-mode h3 {
+      color: #2ecc71;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      background-color: #fff;
+      color: #333;
+    }
+
+    body.dark-mode input, body.dark-mode select, body.dark-mode button {
+      background-color: #3c3c3c;
+      color: #f1f1f1;
+      border: 1px solid #555;
+    }
+
+    button {
+      background-color: #2f80ed;
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1e60d4;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
+    .success {
+      color: green;
+      margin-bottom: 10px;
+    }
+
+    body.dark-mode .success {
+      color: #2ecc71;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px dashed #ccc;
+      margin: 30px 0;
+    }
+
+    .logout {
+      display: block;
+      text-align: center;
+      margin-top: 40px;
+      font-weight: bold;
+      color: #c0392b;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+
+    .logout:hover {
+      text-decoration: underline;
+    }
+
+    .toggle-mode {
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .toggle-mode button {
+      background-color: #555;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    body.dark-mode .toggle-mode button {
+      background-color: #f1f1f1;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      section {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h2>Welcome, User!</h2>
+      <div class="toggle-mode">
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      </div>
+    </header>
+
+    <!-- Booking Section -->
+    <section>
+      <h3>Book an Appointment</h3>
+      <form method="POST" action="/book_appointment">
+        <label>Select Doctor:</label>
+        <select name="doctor_id" required>
+          {% for doc in doctors %}
+            <option value="{{ doc[0] }}">{{ doc[1] }}</option>
+          {% endfor %}
+        </select>
+
+        <label>Select Date and Time:</label>
+        <select name="slot_id" required>
+          {% for slot in slots %}
+            <option value="{{ slot[0] }}">Dr. {{ slot[1] }} - {{ slot[2] }} at {{ slot[3] }}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit">Book Appointment</button>
+      </form>
+
+      {% if message %}
+        <p class="success">{{ message }}</p>
+      {% endif %}
+    </section>
+
+    <!-- Appointments -->
+    <section>
+      <h3>Your Appointments</h3>
+      <ul>
+        {% for appt in user_appointments %}
+          <li>With Dr. {{ appt[0] }} on {{ appt[1] }} at {{ appt[2] }}</li>
+        {% else %}
+          <li>No appointments booked yet.</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- Disease Prediction -->
+    <section>
+      <h3>Health Chatbot</h3>
+      <form action="/predict_disease" method="GET">
+        <button type="submit">Talk to Chatbot</button>
+      </form>
+    </section>
+
+    <!-- BMI Calculator -->
+    <section>
+      <h3>BMI Calculator</h3>
+      <form method="POST" action="/calculate_bmi">
+        <label>Height (in cm):</label>
+        <input type="number" name="height" required>
+
+        <label>Weight (in kg):</label>
+        <input type="number" name="weight" required>
+
+        <button type="submit">Calculate BMI</button>
+      </form>
+
+      {% if bmi %}
+        <p><strong>Your BMI:</strong> {{ bmi }} ({{ bmi_status }})</p>
+      {% endif %}
+    </section>
+
+    <!-- AQI -->
+    <section>
+      <h3>Check Air Quality (AQI)</h3>
+      <form action="/aqi" method="GET">
+        <button type="submit">Go to AQI Checker</button>
+      </form>
+    </section>
+
+    <!-- Weather News -->
+    <section>
+      <h3>Weather News</h3>
+      <form method="GET" action="/weather_news">
+        <label for="city">Enter City:</label>
+        <input type="text" name="city" id="city" required>
+        <button type="submit">Get News</button>
+      </form>
+    </section>
+
+    <a class="logout" href="/logout">Logout</a>
+  </div>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+  </script>
+</body>
+</html>

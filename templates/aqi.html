@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQI Checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-white to-green-100 min-h-screen flex items-center justify-center font-[Inter] p-4">
+
+    <div class="bg-white shadow-2xl rounded-2xl w-full max-w-xl p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800">🌍 AQI (Air Quality Index) Checker</h2>
+            <i class="ph ph-wind text-xl text-blue-500"></i>
+        </div>
+
+        <form method="post" action="/check_aqi" class="space-y-4">
+            <label for="city" class="block text-sm font-medium text-gray-700">Enter your city:</label>
+            <input type="text" name="city" id="city" required
+                placeholder="e.g., Delhi, Mumbai, New York"
+                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400 focus:outline-none">
+            <button type="submit"
+                class="w-full bg-green-500 text-white py-2 rounded-xl hover:bg-green-600 transition duration-300">
+                Check AQI
+            </button>
+        </form>
+
+        {% if aqi %}
+        <div class="mt-8 p-4 bg-green-50 border-l-4 border-green-400 rounded-lg animate-fadeIn">
+            <h3 class="text-xl font-semibold text-gray-800">🌆 {{ request.form.city }}</h3>
+            <p class="mt-1 text-gray-700">Exact AQI: <span class="font-bold text-blue-600">{{ aqi }}</span></p>
+            <p class="text-gray-700">Air Quality: <span class="font-bold text-green-600">{{ quality }}</span></p>
+        </div>
+        {% endif %}
+    </div>
+
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+
+</body>
+</html>

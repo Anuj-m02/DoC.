@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather News - {{ city }}</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h2 {
+      font-size: 2em;
+      color: #2f80ed;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    li:hover {
+      transform: translateY(-3px);
+    }
+
+    a {
+      color: #2f80ed;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .description {
+      margin-top: 8px;
+      font-size: 0.95em;
+      color: #555;
+    }
+
+    .no-news {
+      text-align: center;
+      color: #999;
+      font-size: 1.1em;
+      margin-top: 40px;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 40px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #c0392b;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h2>Weather News for {{ city }}</h2>
+    </header>
+
+    {% if articles %}
+      <ul>
+        {% for article in articles %}
+          <li>
+            <a href="{{ article.url }}" target="_blank">
+              <strong>{{ article.title }}</strong>
+            </a>
+            <p class="description">{{ article.description }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-news">No articles found for {{ city }}.</p>
+    {% endif %}
+
+    <a class="back-link" href="/user_dashboard">← Back to Dashboard</a>
+  </div>
+</body>
+</html>
