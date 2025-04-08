@@ -1,4 +1,4 @@
-# 🏥 Health Chatbot Web App
+# 🏥 DoC. Web App
 
 A modern, full-stack health assistant web app built with Flask that helps users and doctors manage healthcare features like disease prediction, BMI calculation, AQI checks, appointment booking, and weather-related news.
 
