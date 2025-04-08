@@ -65,16 +65,16 @@
 ##📋 Requirements
 All dependencies are listed in requirements.txt. Here's a quick overview:
 
-Flask==2.3.3
-scikit-learn==1.4.1
-joblib==1.3.2
-spacy==3.7.2
-requests==2.31.0
-newsapi-python==0.2.7
-gunicorn==21.2.0  # Optional, for deployment
+- Flask==2.3.3
+- scikit-learn==1.4.1
+- joblib==1.3.2
+- spacy==3.7.2
+- requests==2.31.0
+- newsapi-python==0.2.7
+- gunicorn==21.2.0  # Optional, for deployment
 
 ## 🎥 Demo Video
-👉 [Coming Soon: Insert demo video link or upload below!]
+👉 [https://youtu.be/dtGN0U8p_gw]
 
 
 ## 🔧 Installation & Setup
